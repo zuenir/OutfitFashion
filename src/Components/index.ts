@@ -9,6 +9,5 @@ export {default as RoundedIcons} from './Form/RoundedIcons';
 export {default as RoundedIconButton} from './Form/RoundedIconButton'; 
 export {default as Header} from './Form/Header'; 
 export {default as SocialLogin} from './Form/SocialLogin';
-export {default as BorderlessTap} from './Form/BorderlessTap';
 export {default as ContentFooter} from './Form/ContentFooter';
 export {default as ScrollableContent} from './Form/ScrollableContent'

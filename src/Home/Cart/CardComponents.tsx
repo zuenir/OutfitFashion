@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, View } from "react-native";
-import { BorderlessTap, Box, Text } from "../../Components";
+import { Text } from "../../Components";
 import CardLayout from "./CardLayout";
 
 export enum CardType {
