@@ -3,7 +3,6 @@ import { Box, Header } from "../../Components";
 import { HomeNavigationProps } from "../../Components/Navigation";
 import Background from "./Background";
 import Card from "./Card";
-import { sub, useDerivedValue } from "react-native-reanimated";
 import Categories from "./Categories";
 import { useTiming } from "react-native-redash";
 
@@ -47,8 +46,7 @@ const OutfitIdeas = ({ navigation }: HomeNavigationProps<"OutfitIdeas">) => {
         <Background />
         {cards.map(
           ({ index, source }) =>
-            currentIndex < step + step &&
-            index >= currentIndex && (
+            currentIndex < index * step + step && (
               <Card
                 key={index}
                 index={index}

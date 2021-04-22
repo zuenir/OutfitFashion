@@ -14,7 +14,6 @@ import { mix, mixColor, snapPoint } from "react-native-redash";
 import { Box } from "../../Components";
 
 interface CardProps {
-  position: Animated.Node<number>;
   onSwipe: () => void;
   source: ImageRequireSource;
   step: number;
@@ -23,7 +22,7 @@ interface CardProps {
 }
 
 const { width: Wwidth } = Dimensions.get("window");
-const width = Wwidth * 0.6;
+const width = Wwidth * 0.6; //0.75
 const height = width * (425 / 294);
 const borderRadius = 24;
 const SnapPoints = [-width, 0, Wwidth];
@@ -43,7 +42,7 @@ const Card = ({ onSwipe, source, index, aIndex, step }: CardProps) => {
       translateY.value = translationY + ctx.y;
     },
     onEnd: ({ velocityX, velocityY }) => {
-      translateX.value = withSpring(0, { velocity: velocityY });
+      translateY.value = withSpring(0, { velocity: velocityY });
       const dest = snapPoint(translateX.value, velocityX, SnapPoints);
       translateX.value = withSpring(
         dest,

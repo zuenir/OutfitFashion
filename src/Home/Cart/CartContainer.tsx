@@ -16,8 +16,8 @@ interface CartProps {
 }
 
 const { width } = Dimensions.get("window");
-const aspectRatio = width / 375;
-const height = 550 * aspectRatio;
+const aspectRatio = ( width / 375);
+const height = 650 * aspectRatio;
 const minHeight = 128 * aspectRatio;
 const snapPoints = [-(height - minHeight), 0];
 
