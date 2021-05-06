@@ -1,78 +1,132 @@
-import React, { ReactNode } from 'react'
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
-import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
-import { RoundedIconButton, RoundedIcons, useTheme } from '../../Components';
-import { aspectRatio, Box } from '../../Components/Theme';
-import { snapPoint } from 'react-native-redash';
-import { LinearGradient } from 'expo-linear-gradient';
+import React, { ReactNode } from "react";
+import { Dimensions, StyleSheet, View } from "react-native";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
+import { RoundedIconButton, RoundedIcons, useTheme } from "../../Components";
+import { aspectRatio, Box } from "../../Components/Theme";
+import { snapPoint } from "react-native-redash";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface SwipeableRowProps {
-    children: ReactNode;
-    onDelete: () => void;
-    height: number;
+  children: ReactNode;
+  onDelete: () => void;
+  height: number;
 }
 
-const {width} = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 const finalDestination = width;
 const editWidth = 85 * aspectRatio;
-const snapPoints = [-editWidth, 0, finalDestination]
+const snapPoints = [-editWidth, 0, finalDestination];
 
-export const SwipeableRow = ({children, onDelete, height:defaultHeight}:SwipeableRowProps) => {
-    const height = useSharedValue(defaultHeight);
-    const theme = useTheme();
-    const translateX = useSharedValue(0);
-    const onGestureEvent = useAnimatedGestureHandler<{x:number}>({
-        onStart:(event, ctx)=>
+export const SwipeableRow = ({
+  children,
+  onDelete,
+  height: defaultHeight,
+}: SwipeableRowProps) => {
+  const height = useSharedValue(defaultHeight);
+  const theme = useTheme();
+  const translateX = useSharedValue(0);
+  const onGestureEvent = useAnimatedGestureHandler<{ x: number }>({
+    onStart: (_, ctx) => {
+      ctx.x = translateX.value;
+    },
+    onActive: ({ translationX }, ctx) => {
+      translateX.value = ctx.x + translationX;
+    },
+    onEnd: ({ velocityX }) => {
+      const dest = snapPoint(translateX.value, velocityX, snapPoints);
+      translateX.value = withSpring(
+        dest,
         {
-            ctx.x = translateX.value;
+          overshootClamping: true,
         },
-        onActive:({translationX}, ctx)=>{
-            translateX.value = ctx.x + translationX;
-        },
-        onEnd: ({velocityX}) =>{
-            const dest = snapPoint(translateX.value, velocityX, snapPoints);
-            translateX.value = withSpring(dest, {overshootClamping: true}, () => {
-                if(dest === finalDestination){
-                    height.value = withTiming(0, {duration: 250}, () => onDelete());
-                }
-            });
+        () => {
+          if (dest === finalDestination) {
+            height.value = withTiming(0, { duration: 250 }, () => onDelete());
+          }
         }
-    });
-    const style = useAnimatedStyle(() => ({
-        height: height.value,
-        backgroundColor: theme.colors.background,
-        transform: [{translateX: translateX.value}],
-    }));
+      );
+    },
+  });
 
-    const deleteStyle = useAnimatedStyle(()=>({
-        opacity: translateX.value > 0 ? 1 : 0,
-    }));
+  const style = useAnimatedStyle(() => ({
+    height: height.value,
+    backgroundColor: theme.colors.background,
+    transform: [{ translateX: translateX.value }],
+  }));
 
-    const editStyle = useAnimatedStyle(()=>({
-        opacity: translateX.value < 0 ? 1 : 0,
-    }));
+  const deleteStyle = useAnimatedStyle(() => ({
+    opacity: translateX.value > 0 ? 1 : 0,
+  }));
 
-    return (
-        <View>
-           <Animated.View style={[StyleSheet.absoluteFillObject,deleteStyle]}>
-                <LinearGradient  style={StyleSheet.absoluteFill} colors={[theme.colors.danger, theme.colors.background]} start={[0, 0.5]} end={[1, 0.5]}/>
-                <Box justifyContent="space-evenly" alignItems="center" flex={1} width={editWidth} padding="m">
-                    <RoundedIcons name="x" size={24} color="background" backgroundColor="danger"/>
-                </Box>
-           </Animated.View>
-           <Animated.View style={[StyleSheet.absoluteFillObject,editStyle]}>
-           <LinearGradient  style={StyleSheet.absoluteFill} colors={[theme.colors.danger, theme.colors.background]} start={[1, 0.5]} end={[0.7, 0.5]}/>
-                <Box justifyContent="space-evenly" alignItems="center" alignSelf="flex-end" flex={1} width={editWidth} padding="m">
-                    <RoundedIconButton onPress={()=> alert("")} name="plus" size={24} color="background" backgroundColor="primary"/>
-                    <RoundedIconButton onPress={()=> alert("")} name="minus" size={24} color="background" backgroundColor="danger"/>
-                </Box>
-           </Animated.View>
-            <PanGestureHandler onGestureEvent={onGestureEvent}>
-                <Animated.View style={style}>
-                    {children}
-                </Animated.View>
-            </PanGestureHandler>
-        </View>
-    );
+  const editStyle = useAnimatedStyle(() => ({
+    opacity: translateX.value < 0 ? 1 : 0,
+  }));
+
+  return (
+    <View>
+      <Animated.View style={[StyleSheet.absoluteFill, deleteStyle]}>
+        <LinearGradient
+          style={StyleSheet.absoluteFill}
+          colors={[theme.colors.danger, theme.colors.background]}
+          start={[0, 0.5]}
+          end={[1, 0.5]}
+        />
+        <Box
+          justifyContent="space-evenly"
+          alignItems="center"
+          flex={1}
+          width={editWidth}
+          padding="m"
+        >
+          <RoundedIcons
+            name="x"
+            size={24}
+            color="background"
+            backgroundColor="danger"
+          />
+        </Box>
+      </Animated.View>
+      <Animated.View style={[StyleSheet.absoluteFill, editStyle]}>
+        <LinearGradient
+          style={StyleSheet.absoluteFill}
+          colors={[theme.colors.danger, theme.colors.background]}
+          start={[1, 0.5]}
+          end={[0.7, 0.5]}
+        />
+        <Box
+          justifyContent="space-evenly"
+          alignItems="center"
+          alignSelf="flex-end"
+          flex={1}
+          width={editWidth}
+          padding="m"
+        >
+          <RoundedIconButton
+            onPress={() => alert("add")}
+            name="plus"
+            size={24}
+            color="background"
+            backgroundColor="primary"
+          />
+          <RoundedIconButton
+            onPress={() => alert("sub")}
+            name="minus"
+            size={24}
+            color="background"
+            backgroundColor="danger"
+          />
+        </Box>
+      </Animated.View>
+      <PanGestureHandler onGestureEvent={onGestureEvent}>
+        <Animated.View style={style}>{children}</Animated.View>
+      </PanGestureHandler>
+    </View>
+  );
 };

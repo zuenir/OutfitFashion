@@ -12,6 +12,14 @@ const {width} = Dimensions.get("window");
 
 export const aspectRatio = width / 375;
 
+export const SPRING_CONFIG = {
+  damping: 80,
+  overshootClamping: true,
+  restDisplacementThreshold: 0.1,
+  restSpeedThreshold: 0.1,
+  stiffness: 500,
+};
+
 export const palette = {
   white: "white",
   green: "#2CB9B0",
