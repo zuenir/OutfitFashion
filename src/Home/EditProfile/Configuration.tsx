@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollView } from 'react-native';
 import { Box, Text } from '../../Components';
+import MySwipeButton from '../../Components/Form/MySwipeButton';
 import CheckBoxGroup from './CheckBoxGroup';
 import RoundedCheckBoxGroup from './RoundedCheckBoxGroup';
 
@@ -42,15 +43,18 @@ const clothingColors = [
 const Configuration = () => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
-            <Box padding="m">
-                <Text variant="body">What type of outfit you usually wear?</Text>
+            <Box padding="m" justifyContent="center" alignItems="center">
+                <Text variant="body" style={{opacity: 0.5}}>What type of outfit you usually wear?</Text>
                 <CheckBoxGroup options={outfitTye} radio/>
-                <Text variant="body">What is your clothing size?</Text>
+                <Text variant="body" style={{opacity: 0.5}}>What is your clothing size?</Text>
                 <RoundedCheckBoxGroup options={clothingSize}/>
-                <Text variant="body">My preferred clothing colors</Text>
+                <Text variant="body" style={{opacity: 0.5}}>My preferred clothing colors</Text>
                 <RoundedCheckBoxGroup options={clothingColors} valueIsColor/>
-                <Text variant="body">My preferred brands</Text>
+                <Text variant="body" style={{opacity: 0.5}}>My preferred brands</Text>
                 <CheckBoxGroup options={preferredBrands}/>
+                <Box marginTop="m" justifyContent="center" alignItems="center">
+                    <MySwipeButton label="Swipe to save changes" onPress={()=> true}/>
+                </Box>
             </Box>
         </ScrollView>
     );

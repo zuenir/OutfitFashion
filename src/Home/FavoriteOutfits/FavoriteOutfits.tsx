@@ -93,6 +93,7 @@ const FavoriteOutfits = ({
       />
       <Box flex={1}>
         <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingHorizontal: theme.spacing.m,
             paddingBottom: footerHeight,

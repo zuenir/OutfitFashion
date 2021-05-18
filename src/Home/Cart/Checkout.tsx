@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import { number } from "yup";
-import { Box, MyButton, Text, useTheme } from "../../Components";
+import { Box, Text, useTheme, MyButton } from "../../Components";
 import CardComponents, { CardType } from "./CardComponents";
 import AddCardComponents from "./AddCardComponents";
 import { CARD_HEIGHT } from "./CardLayout";
 import LineItem from "./LineItem";
+import MySwipeButton from "../../Components/Form/MySwipeButton";
+import { useNavigation } from "@react-navigation/native";
 
 interface CheckoutProps {
   minHeight: number;
+  checkoutState: boolean;
 }
 
 const cards = [
@@ -26,8 +28,9 @@ const cards = [
   },
 ];
 
-const Checkout = ({ minHeight }: CheckoutProps) => {
+const Checkout = ({ minHeight, checkoutState }: CheckoutProps) => {
   const theme = useTheme();
+  const navigation = useNavigation();
   const [selectedCard, setselectedCard] = useState(cards[0].id);
   return (
     <Box flex={1} backgroundColor="secundary" style={{ paddingTop: minHeight }}>
@@ -46,9 +49,11 @@ const Checkout = ({ minHeight }: CheckoutProps) => {
           </ScrollView>
         </Box>
         <Box marginTop="m">
-          <Text color="background" variant="title3">Delivery address</Text>
+          <Text color="background" variant="title3">
+            Delivery address
+          </Text>
           <Box flexDirection="row" opacity={0.5} paddingVertical="m">
-            <Box flex={1} >
+            <Box flex={1} justifyContent="flex-start" paddingRight="m">
               <Text color="background">
                 Unit 15, York Farm Business Centre, Watling St, Towcester
               </Text>
@@ -57,12 +62,53 @@ const Checkout = ({ minHeight }: CheckoutProps) => {
               <Text color="background">Change</Text>
             </Box>
           </Box>
-          <LineItem label="Total Items (6)" value={189.94}/>
-          <LineItem label="Standard Delivery" value={12.00}/>
-          <LineItem label="Total Payment" value={201.84}/>
+          <LineItem label="Total Items (6)" value={189.94} />
+          <LineItem label="Standard Delivery" value={12.0} />
+          <LineItem label="Total Payment" value={201.84} />
         </Box>
-        <Box paddingVertical="m" alignItems="center" flex={1} justifyContent="flex-end">
-            <MyButton label="Swipe to Pay $201.84" variant="primary" onPress={()=> true}/>
+        <Box
+          paddingVertical="m"
+          alignItems="center"
+          flex={1}
+          justifyContent="flex-end"
+        >
+          {checkoutState === true ? (
+            <MySwipeButton
+              label="Swipe to Pay $201.82"
+              onPress={() => {
+                navigation.navigate("SuccessPopUp");
+              }}
+            />
+          ) : (
+            <Box
+              flexDirection="row"
+              justifyContent="center"
+              alignItems="center"
+              paddingTop="l"
+            >
+              <Box
+                flexDirection="column"
+                flex={1}
+                justifyContent="flex-start"
+                paddingRight="m"
+              >
+                <Text color="background" style={{ opacity: 0.5 }}>
+                  Total Payment:
+                </Text>
+                <Text variant="title2" color="background">
+                  $189,94
+                </Text>
+              </Box>
+              <Box justifyContent="flex-end">
+                <MyButton
+                  variant="primary"
+                  label="Go to checkout"
+                  style={{ width: 181 }}
+                  onPress={() => true}
+                />
+              </Box>
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>

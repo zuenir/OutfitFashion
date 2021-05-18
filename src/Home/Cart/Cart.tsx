@@ -8,9 +8,10 @@ import { aspectRatio, SPRING_CONFIG, Text } from "./../../Components/Theme";
 import Checkout from "./Checkout";
 import { HomeNavigationProps } from "../../Components/Navigation";
 import { ScrollView } from "react-native-gesture-handler";
-import BottomActionSheet from "./BottomActionSheet";
+import BottomActionSheet from "../../Components/Form/BottomActionSheet";
 import { useSharedValue, withSpring } from "react-native-reanimated";
 import CheckBoxGroup from "./../EditProfile/CheckBoxGroup";
+import MySwipeButton from "../../Components/Form/MySwipeButton";
 
 const heightBottomSheet = 0;
 const height = 100 * aspectRatio;
@@ -100,11 +101,16 @@ const Cart = ({ navigation }: HomeNavigationProps<"Cart">) => {
           <Box paddingVertical="m" alignItems="center">
             <Text variant="title1">Change item size</Text>
             <CheckBoxGroup options={defaultSize} radio />
-            <MyButton
-              label="Swipe to applay changes"
-              variant="primary"
-              onPress={() => true}
-            />
+            <Box style={{ marginTop: 10 }}>
+              <MySwipeButton
+                label="Swipe to applay changes"
+                onPress={() => {
+                  if (toggleState === true) {
+                    translateY.value = withSpring(300, SPRING_CONFIG);
+                  }
+                }}
+              />
+            </Box>
           </Box>
         </BottomActionSheet>
       )}

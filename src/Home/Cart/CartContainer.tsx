@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import { Dimensions, View } from "react-native";
 import { Box, useTheme } from "../../Components";
 import { PanGestureHandler } from "react-native-gesture-handler";
@@ -18,12 +18,13 @@ const snapPoints = [-(height - minHeight), 0];
 
 interface CartProps {
   children: ReactNode;
-  CheckoutComponent: FC<{ minHeight: number }>;
+  CheckoutComponent: FC<{ minHeight: number; checkoutState: boolean }>;
 }
 
-const Cart = ({ children, CheckoutComponent }: CartProps) => {
+const Cart = ({ children, CheckoutComponent}: CartProps) => {
   const theme = useTheme();
   const translateY = useSharedValue(0);
+  const [toggleState, setToggleState] = useState(false);
   const gestureHandler = useAnimatedGestureHandler<{ y: number }>({
     onStart: (_, ctx) => {
       ctx.y = translateY.value;
@@ -37,7 +38,13 @@ const Cart = ({ children, CheckoutComponent }: CartProps) => {
     },
     onEnd: ({ velocityY }) => {
       const dest = snapPoint(translateY.value, velocityY, snapPoints);
-      translateY.value = withSpring(dest, { overshootClamping: true });
+      translateY.value = withSpring(dest, { overshootClamping: true }, () => {
+        if (translateY.value < -350) {
+          setToggleState(true);
+        } else if (translateY.value == 0) {
+          setToggleState(false);
+        }
+      });
     },
   });
 
@@ -47,7 +54,7 @@ const Cart = ({ children, CheckoutComponent }: CartProps) => {
 
   return (
     <Box flex={1}>
-      <CheckoutComponent minHeight={minHeight} />
+      <CheckoutComponent minHeight={minHeight} checkoutState={toggleState} />
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View
           style={[

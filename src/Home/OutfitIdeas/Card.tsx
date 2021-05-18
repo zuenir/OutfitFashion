@@ -1,6 +1,11 @@
 import React from "react";
 import { StyleSheet, Dimensions, ImageRequireSource } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import {
+  PanGestureHandler,
+  TapGestureHandler,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -12,9 +17,11 @@ import Animated, {
 import { useAnimatedStyle } from "react-native-reanimated";
 import { mix, mixColor, snapPoint } from "react-native-redash";
 import { Box } from "../../Components";
+import { useNavigation } from "@react-navigation/native";
 
 interface CardProps {
   onSwipe: () => void;
+  onPress: () => void;
   source: ImageRequireSource;
   step: number;
   index: number;
@@ -27,7 +34,7 @@ const height = width * (425 / 294);
 const borderRadius = 24;
 const SnapPoints = [-width, 0, Wwidth];
 
-const Card = ({ onSwipe, source, index, aIndex, step }: CardProps) => {
+const Card = ({ onSwipe, onPress, source, index, aIndex, step }: CardProps) => {
   const translateY = useSharedValue(0);
   const translateX = useSharedValue(0);
   const position = useDerivedValue(() => index * step - aIndex.value);
@@ -99,17 +106,22 @@ const Card = ({ onSwipe, source, index, aIndex, step }: CardProps) => {
             cardStyle,
           ]}
         >
-          <Animated.Image
-            {...{ source }}
-            style={[
-              {
-                ...StyleSheet.absoluteFillObject,
-                width: undefined,
-                height: undefined,
-              },
-              imageStyle,
-            ]}
-          />
+          <TouchableWithoutFeedback
+            style={{ height, width }}
+            onPress={onPress}
+          >
+            <Animated.Image
+              {...{ source }}
+              style={[
+                {
+                  ...StyleSheet.absoluteFillObject,
+                  width: undefined,
+                  height: undefined,
+                },
+                imageStyle,
+              ]}
+            />
+          </TouchableWithoutFeedback>
         </Animated.View>
       </PanGestureHandler>
     </Box>

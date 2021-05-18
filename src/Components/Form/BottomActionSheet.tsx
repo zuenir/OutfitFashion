@@ -13,8 +13,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { clamp, snapPoint } from "react-native-redash";
-import { useTheme } from "../../Components";
-import { aspectRatio, Box, SPRING_CONFIG } from "../../Components/Theme";
+import { useTheme } from "..";
+import { aspectRatio, Box, SPRING_CONFIG } from "../Theme";
 
 interface BottomActionSheetProps {
   children: ReactNode;

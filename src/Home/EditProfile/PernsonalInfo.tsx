@@ -4,14 +4,15 @@ import { Box, MyTextInput, Text } from "../../Components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import CheckBoxGroup from "./CheckBoxGroup";
+import MySwipeButton from "./../../Components/Form/MySwipeButton";
 
 interface PernsonalInfoProps {}
 
 const { height: wHeight } = Dimensions.get("window");
 
 const genders = [
-  { value: "male", label: "Male" },
   { value: "female", label: "Female" },
+  { value: "male", label: "Male" },
 ];
 
 const LoginSchema = Yup.object().shape({
@@ -42,7 +43,9 @@ const PernsonalInfo = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Box padding="m">
-        <Text variant="body">Account information</Text>
+        <Text variant="body" style={{ opacity: 0.5 }}>
+          Account information
+        </Text>
         <Box marginTop="m">
           <MyTextInput
             icon="user"
@@ -55,7 +58,7 @@ const PernsonalInfo = () => {
             autoCompleteType="name"
           />
         </Box>
-        <Box marginVertical="m">
+        <Box marginVertical="m" justifyContent="center" alignItems="center">
           <MyTextInput
             icon="lock"
             placeholder="Password"
@@ -80,6 +83,10 @@ const PernsonalInfo = () => {
           autoCompleteType="street-address"
         />
         <CheckBoxGroup options={genders} radio />
+
+        <Box marginTop="m" justifyContent="center" alignItems="center">
+          <MySwipeButton label="Swipe to save changes" onPress={() => true} />
+        </Box>
       </Box>
     </ScrollView>
   );

@@ -43,6 +43,7 @@ const theme = {
     background2: "#F6F6F6",
     graph1: palette.orange,
     graph2: palette.yellow,
+    greyLight: "#F9F9F9",
     drawer1: palette.orange,
     drawer2: palette.yellow,
     drawer3: palette.pink,

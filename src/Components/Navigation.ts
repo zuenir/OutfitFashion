@@ -35,10 +35,13 @@ export type AuthenticationRoutes = {
 
 export type HomeRoutes = {
   OutfitIdeas: undefined;
+  OutfitDetails: undefined;
+  ProductDetails: undefined;
   FavoriteOutfits: undefined;
   EditProfile: undefined;
   TransactionHistory: undefined;
   Notification: undefined;
   Logout: undefined;
   Cart: undefined;
+  SuccessPopUp: undefined;
 };

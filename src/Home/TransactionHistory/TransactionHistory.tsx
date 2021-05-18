@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Dimensions } from "react-native";
+import { ScrollView, StyleSheet, Dimensions, Share } from "react-native";
 import { Box, ScrollableContent, Header, Text } from "../../Components";
 import { HomeNavigationProps } from "../../Components/Navigation";
 import { makeStyles, Theme } from "../../Components/Theme";
@@ -38,6 +38,25 @@ const TransactionHistory = ({
   navigation,
 }: HomeNavigationProps<"TransactionHistory">) => {
   const styles = useStyles();
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          "React Native | A framework for building native apps using React",
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        //dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <ScrollableContent>
@@ -45,7 +64,7 @@ const TransactionHistory = ({
         <Header
           title="Transaction History"
           left={{ icon: "arrow-left", onPress: () => navigation.goBack() }}
-          right={{ icon: "share", onPress: () => true }}
+          right={{ icon: "share", onPress: onShare }}
         />
 
         <Box padding="m" flex={1}>
@@ -62,7 +81,7 @@ const TransactionHistory = ({
                 $619,19
               </Text>
             </Box>
-            <Box backgroundColor="primaryLight" borderRadius="m" padding="m">
+            <Box backgroundColor="primaryLight" borderRadius="xl" padding="m">
               <Text color="primary">All Time</Text>
             </Box>
           </Box>
