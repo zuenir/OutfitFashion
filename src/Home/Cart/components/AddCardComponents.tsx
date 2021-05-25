@@ -1,6 +1,6 @@
 import React from "react";
-import { Box} from "../../Components";
-import CardLayout from "./CardLayout";
+import { Box} from "../../../Components";
+import CardLayout from "../components/CardLayout";
 import { Feather as Icon } from "@expo/vector-icons";
 
 const AddCardComponents = () => {

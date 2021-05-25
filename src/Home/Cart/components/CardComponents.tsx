@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, View } from "react-native";
-import { Text } from "../../Components";
-import CardLayout from "./CardLayout";
+import { Text } from "../../../Components";
+import CardLayout from "../components/CardLayout";
 
 export enum CardType {
   VISA,
@@ -21,14 +21,17 @@ interface CardComponentsProps {
   onSelect: () => void;
 }
 
-const visaLogo = require("../Cart/assets/visa-logo.png");
-const masterCardLogo = require("../Cart/assets/mastercard-logo.png");
+const visaLogo = require("../../Cart/assets/visa-logo.png");
+const masterCardLogo = require("../../Cart/assets/mastercard-logo.png");
+const patternVisa = require("../../Cart/assets/pattern-visa.png");
+const patternMasterCard = require("../../Cart/assets/pattern-mastercard.png")
+
 
 const CardComponents = ({ card, selected, onSelect }: CardComponentsProps) => {
   return (
     <CardLayout
       onPress={onSelect}
-      backgroundColor={selected ? "primary" : "background"}
+      backgroundColor={selected ? "primary" : "background2"}
     >
       <View style={{ height: 20 }}>
         <Image
@@ -54,6 +57,16 @@ const CardComponents = ({ card, selected, onSelect }: CardComponentsProps) => {
       >
         {card.expiration}
       </Text>
+      <View style={{ height: 22, marginTop: 10 }}>
+        <Image
+          style={
+            card.type === CardType.VISA
+              ? { width: 99, height: 22 }
+              : { width: 99, height: 20 }
+          }
+          source={card.type === CardType.VISA ? patternVisa : patternMasterCard}
+        />
+      </View>
     </CardLayout>
   );
 };

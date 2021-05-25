@@ -63,8 +63,7 @@ const ProductDetails = ({
           overflow="hidden"
         >
           <ScrollView
-            style={{}}
-            showsVerticalScrollIndicator={true}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               width,
               backgroundColor: "#0C0D34",

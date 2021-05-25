@@ -1,8 +1,8 @@
 import { BoxProps } from '@shopify/restyle';
 import React, { ReactNode } from 'react'
-import {Box } from '../../Components';
-import { Theme } from '../../Components/Theme';
 import { BorderlessButton } from 'react-native-gesture-handler';
+import { Box } from '../../../Components';
+import { Theme } from '../../../Components/Theme';
 
 interface CardLayoutProps{
     onPress: () => void;

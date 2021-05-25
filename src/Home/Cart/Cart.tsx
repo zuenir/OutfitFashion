@@ -1,22 +1,27 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Box, Header, MyButton, useTheme } from "../../Components";
 import CartContainer from "./CartContainer";
-import Item from "./Item";
+import Item from "./components/Item";
 import { Path, Svg } from "react-native-svg";
 import { aspectRatio, SPRING_CONFIG, Text } from "./../../Components/Theme";
 import Checkout from "./Checkout";
 import { HomeNavigationProps } from "../../Components/Navigation";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, FlatList } from "react-native-gesture-handler";
 import BottomActionSheet from "../../Components/Form/BottomActionSheet";
-import { useSharedValue, withSpring } from "react-native-reanimated";
+import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 import CheckBoxGroup from "./../EditProfile/CheckBoxGroup";
 import MySwipeButton from "../../Components/Form/MySwipeButton";
 
 const heightBottomSheet = 0;
 const height = 100 * aspectRatio;
 const d = "M 0 0 A 50 50 0 0 0 50 50 H 325 A 50 50 0 0 1 375 100 V 0 2";
-const defaultItems = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+const defaultItems = [
+  { key: "1", title: "Short Sleeve Organic Top", price: 29.99, size: "M, L" },
+  { key: "2", title: "Crew Neck Sweatshirt", price: 18.79, size: "M, L" },
+  { key: "3", title: "No Broken Hearts Shirt", price: 45.09, size: "M, XL" },
+  { key: "4", title: "Cubano Shirt", price: 21.15, size: "S,M" },
+];
 const defaultSize = [
   { value: "s", label: "S" },
   { value: "m", label: "M" },
@@ -54,12 +59,14 @@ const Cart = ({ navigation }: HomeNavigationProps<"Cart">) => {
                 icon: "shopping-bag",
                 onPress: () => true,
               }}
+              countCart={4}
             />
           </Box>
         </Box>
-        <Box flex={1} paddingHorizontal="m">
+        <Box flex={1} style={{ paddingHorizontal: 16 }}>
           <ScrollView
             style={{
+              flex: 1,
               borderBottomLeftRadius: theme.borderRadii.xl,
               borderBottomRightRadius: theme.borderRadii.xl,
             }}
@@ -68,7 +75,8 @@ const Cart = ({ navigation }: HomeNavigationProps<"Cart">) => {
           >
             {items.map((item, index) => (
               <Item
-                key={item.id}
+                key={item.key}
+                item={item}
                 onDelete={() => {
                   items.splice(index, 1);
                   setItems(items.concat());
@@ -77,10 +85,11 @@ const Cart = ({ navigation }: HomeNavigationProps<"Cart">) => {
               />
             ))}
           </ScrollView>
+
           <Box
             style={{
               position: "absolute",
-              top: -2,
+              top: -3,
               left: 0,
               right: 0,
               height,
@@ -90,7 +99,7 @@ const Cart = ({ navigation }: HomeNavigationProps<"Cart">) => {
               <Path d={d} fill={theme.colors.primary} />
             </Svg>
             <Text variant="title2" textAlign="center" color="background">
-              3 Items added
+              4 Items added
             </Text>
           </Box>
         </Box>
@@ -121,3 +130,5 @@ const Cart = ({ navigation }: HomeNavigationProps<"Cart">) => {
 export default Cart;
 
 //https://www.youtube.com/watch?v=Mm30RFp0qhc&list=PLkOyNuxGl9jyhndcnbFcgNM81fZak7Rbw&index=5
+
+//https://www.youtube.com/watch?v=1d8a_NZ9l1E&t=1691s

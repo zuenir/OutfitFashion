@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box, RoundedIconButton, Text } from "..";
+import { Theme } from "../Theme";
 
 interface HeaderProps {
   left: {
@@ -14,12 +15,13 @@ interface HeaderProps {
     onPress: () => void;
   };
   dark: boolean;
+  countCart?: number;
 }
 
-const Header = ({ title, left, right, dark }: HeaderProps) => {
+const Header = ({ title, left, right, dark, countCart }: HeaderProps) => {
   const insets = useSafeAreaInsets();
   const color = dark ? "background" : "secundary";
-  //const backgroundColor = dark ? "secundary" : undefined;
+  const backgroundColor = dark ? "primary" : "background";
 
   return (
     <Box
@@ -27,7 +29,7 @@ const Header = ({ title, left, right, dark }: HeaderProps) => {
       flexDirection="row"
       paddingHorizontal="m"
       style={{
-        marginTop: insets.top,
+        marginTop: insets.top
       }}
     >
       <RoundedIconButton
@@ -43,15 +45,36 @@ const Header = ({ title, left, right, dark }: HeaderProps) => {
         {title.toUpperCase()}
       </Text>
       {right ? (
-        <RoundedIconButton
-          size={44}
-          iconRatio={0.4}
-          name={right.icon}
-          onPress={right.onPress}
-          align={"center"}
-          {...{ color}}
-        />
-      ) : <View style={{width: 44}} />}
+        <Box>
+          {countCart && (<Box style={{ position: "absolute", top: 0, right: 0 }}>
+            <Box
+              backgroundColor={color}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                width: 20,
+                height: 20,
+                borderRadius: 10,
+              }}
+            >
+              <Text variant="notifications" color={backgroundColor}>
+                {countCart}
+              </Text>
+            </Box>
+          </Box>)}
+
+          <RoundedIconButton
+            size={44}
+            iconRatio={0.4}
+            name={right.icon}
+            onPress={right.onPress}
+            align={"center"}
+            {...{ color }}
+          />
+        </Box>
+      ) : (
+        <View style={{ width: 44 }} />
+      )}
     </Box>
   );
 };

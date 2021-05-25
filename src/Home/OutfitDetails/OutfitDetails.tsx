@@ -9,7 +9,12 @@ interface OutfitDetailsProps {}
 
 const { width } = Dimensions.get("window");
 
-const defaultItems = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+const defaultItems = [
+  { key: "1", title: "Short Sleeve Organic Top", price: 29.99, size: "M, L", subTitle:"Blue - 100% Polyester" },
+  { key: "2", title: "Crew Neck Sweatshirt", price: 18.79, size: "M, L", subTitle: "Red - 50% Polyester" },
+  { key: "3", title: "No Broken Hearts Shirt", price: 45.09, size: "M, XL", subTitle: "Red - 25% Polyester" },
+  { key: "4", title: "Cubano Shirt", price: 21.15, size: "S,M", subTitle: "Red - 5% Polyester" },
+];
 
 const OutfitDetails = ({
   navigation,
@@ -55,7 +60,8 @@ const OutfitDetails = ({
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {items.map((item, index) => (
                   <OutfitItem
-                    key={item.id}
+                    key={item.key}
+                    item={item}
                     onPress={() => navigation.navigate("ProductDetails")}
                   />
                 ))}

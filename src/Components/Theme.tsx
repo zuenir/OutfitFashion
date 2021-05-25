@@ -91,6 +91,11 @@ const theme = {
       fontFamily: "SFProDisplay-Regular",
       color: "text",
     },
+    notifications: {
+      fontSize: 8,
+      fontFamily: "SFProDisplay-Regular",
+      color: "text",
+    },
     button: {
       fontSize: 15,
       fontFamily: "SFProDisplay-Medium",

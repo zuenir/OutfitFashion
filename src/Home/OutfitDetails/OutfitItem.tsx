@@ -1,13 +1,18 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
-import { Box, Header, Text, useTheme } from "../../Components";
+import { Box,Text} from "../../Components";
+import { ItemModel } from "../Cart/components/ItemLayout";
 
 interface OutfitItemProps {
   onPress: () => void;
+  item: ItemModel;
 }
 
-const OutfitItem = ({ onPress }: OutfitItemProps) => {
+const OutfitItem = ({
+  onPress,
+  item: { title, subTitle, price, size },
+}: OutfitItemProps) => {
   return (
     <View style={styles.container}>
       <TouchableHighlight onPress={onPress} style={{ borderRadius: 10 }}>
@@ -20,9 +25,9 @@ const OutfitItem = ({ onPress }: OutfitItemProps) => {
             marginRight="l"
           />
           <Box justifyContent="center" alignItems="center">
-            <Text variant="body">Hoxton Woven Jacket</Text>
+            <Text variant="body">{title}</Text>
             <Text variant="title3" opacity={0.5}>
-              Blue - 100% Polyester
+              {subTitle}
             </Text>
           </Box>
         </View>

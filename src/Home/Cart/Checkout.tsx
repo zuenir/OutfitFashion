@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { Box, Text, useTheme, MyButton } from "../../Components";
-import CardComponents, { CardType } from "./CardComponents";
-import AddCardComponents from "./AddCardComponents";
-import { CARD_HEIGHT } from "./CardLayout";
-import LineItem from "./LineItem";
+import CardComponents, { CardType } from "./components/CardComponents";
+import AddCardComponents from "./components/AddCardComponents";
+import { CARD_HEIGHT } from "./components/CardLayout";
+import LineItem from "./components/LineItem";
 import MySwipeButton from "../../Components/Form/MySwipeButton";
 import { useNavigation } from "@react-navigation/native";
 
@@ -62,8 +62,8 @@ const Checkout = ({ minHeight, checkoutState }: CheckoutProps) => {
               <Text color="background">Change</Text>
             </Box>
           </Box>
-          <LineItem label="Total Items (6)" value={189.94} />
-          <LineItem label="Standard Delivery" value={12.0} />
+          <LineItem label="Total Items" label_value="(6)" value={189.94} />
+          <LineItem label="Standard Delivery" value={12.01} />
           <LineItem label="Total Payment" value={201.84} />
         </Box>
         <Box
@@ -74,7 +74,7 @@ const Checkout = ({ minHeight, checkoutState }: CheckoutProps) => {
         >
           {checkoutState === true ? (
             <MySwipeButton
-              label="Swipe to Pay $201.82"
+              label="Swipe to Pay $201.84"
               onPress={() => {
                 navigation.navigate("SuccessPopUp");
               }}

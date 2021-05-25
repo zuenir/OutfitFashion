@@ -21,7 +21,7 @@ interface CartProps {
   CheckoutComponent: FC<{ minHeight: number; checkoutState: boolean }>;
 }
 
-const Cart = ({ children, CheckoutComponent}: CartProps) => {
+const Cart = ({ children, CheckoutComponent }: CartProps) => {
   const theme = useTheme();
   const translateY = useSharedValue(0);
   const [toggleState, setToggleState] = useState(false);
@@ -67,6 +67,7 @@ const Cart = ({ children, CheckoutComponent}: CartProps) => {
               backgroundColor: "white",
               borderBottomLeftRadius: theme.borderRadii.xl,
               borderBottomRightRadius: theme.borderRadii.xl,
+              overflow: "hidden",
             },
             style,
           ]}
