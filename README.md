@@ -6,7 +6,6 @@
 </h1>
 
 # Index
-- [Index](#index)
   - [🔖 About](#-about)
   - [📺 Watch it on YouTube](#-watch-it-on-youtube)
   - [🚀 Packages Used](#-packages-used)
