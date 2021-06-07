@@ -8,9 +8,10 @@ import ProductDetailsContainer from "./ProductDetailsContainer";
 import MySwipeButton from "./../../Components/Form/MySwipeButton";
 import RoundedCheckBoxGroup from "./../EditProfile/RoundedCheckBoxGroup";
 import ColorItems, { DataColor } from "./ColorItems";
+import { useTiming } from "react-native-redash";
+import RoundedCard from "../OutfitDetails/RoundedCard";
 
 interface ProductDetailsProps {}
-
 
 const clothingSize = [
   { value: "s" },
@@ -21,25 +22,46 @@ const clothingSize = [
 ];
 
 const data: DataColor[] = [
-  { id: 1, color: "drawer1" },
-  { id: 2, color: "drawer2" },
-  { id: 3, color: "drawer3" },
-  { id: 4, color: "drawer4" },
+  { id: 1, color: "primaryLight" },
+  { id: 2, color: "primaryLight" },
+  { id: 3, color: "primaryLight" },
+  { id: 4, color: "primaryLight" },
 ];
+
+const cards = [
+  {
+    index: 3,
+    title: "",
+  },
+  {
+    index: 2,
+    title: "",
+  },
+  {
+    index: 1,
+    title: "",
+  },
+  {
+    index: 0,
+    title: "+13",
+  },
+];
+const step = 1 / (cards.length - 1);
 
 const { width } = Dimensions.get("window");
 
 const ProductDetails = ({
   navigation,
 }: HomeNavigationProps<"ProductDetails">) => {
-  const theme = useTheme();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const aIndex = useTiming(currentIndex);
 
   return (
     <Box flex={1} backgroundColor="background">
       <Box
         backgroundColor="primaryLight"
         height={300}
-        borderBottomRightRadius="xl"
+        borderBottomLeftRadius="xl"
       >
         <Header
           title=""
@@ -48,6 +70,7 @@ const ProductDetails = ({
             icon: "shopping-bag",
             onPress: () => navigation.navigate("Cart"),
           }}
+          countCart={4}
         />
       </Box>
       <Box flex={1} backgroundColor="primaryLight">
@@ -58,7 +81,7 @@ const ProductDetails = ({
           right={0}
           bottom={0}
           backgroundColor="background"
-          borderTopLeftRadius="xl"
+          borderTopRightRadius="xl"
           justifyContent="center"
           overflow="hidden"
         >
@@ -70,7 +93,12 @@ const ProductDetails = ({
             }}
           >
             <ProductDetailsContainer>
-              <Box flex={1} justifyContent="center" alignItems="center">
+              <Box
+                flex={1}
+                justifyContent="center"
+                alignItems="center"
+                marginTop="m"
+              >
                 <Box opacity={0.5}>
                   <Text variant="header">LONG PANTS</Text>
                 </Box>
@@ -110,6 +138,7 @@ const ProductDetails = ({
                   </Box>
                 </Box>
                 <Box
+                  flex={1}
                   height={137}
                   marginTop="l"
                   justifyContent="center"
@@ -118,16 +147,43 @@ const ProductDetails = ({
                   <Text variant="title2">More colors available</Text>
                   <ColorItems data={data} width={width} />
                 </Box>
-                <Box marginTop="s">
-                  <Box
-                    width={242}
-                    height={50}
-                    backgroundColor="info"
-                    marginVertical="m"
-                  />
-                  {/*
-                    https://code.likeagirl.io/creating-tinder-like-swipe-component-with-react-native-3bf15e6be7e3
-                  */}
+                <Box flex={1}>
+                  <View
+                    style={{
+                      flex: 1,
+                      width: 300,
+                      height: 50,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box
+                      width={140}
+                      height={50}
+                      justifyContent="center"
+                      alignItems="center"
+                      style={{ marginLeft: 10 }}
+                    >
+                      {cards.map(
+                        ({ index, title }) =>
+                          currentIndex < index * step + step && (
+                            <RoundedCard
+                              key={index}
+                              index={index}
+                              aIndex={aIndex}
+                              step={step}
+                              title={title}
+                            />
+                          )
+                      )}
+                    </Box>
+                    <Box width={150} height={50} justifyContent="center">
+                      <Text variant="body">
+                        Mike Peter and 12 others like this outfit
+                      </Text>
+                    </Box>
+                  </View>
                 </Box>
               </Box>
             </ProductDetailsContainer>

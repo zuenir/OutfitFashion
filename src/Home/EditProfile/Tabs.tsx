@@ -2,7 +2,11 @@ import React, { Children, ReactNode, useState } from "react";
 import { Dimensions } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { Box, Text, useTheme } from "../../Components";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 import { useTiming } from "react-native-redash";
 import { mix } from "react-native-redash";
 
@@ -21,12 +25,15 @@ interface TabsProps {
 const Tabs = ({ tabs, children }: TabsProps) => {
   const theme = useTheme();
   const [index, setIndex] = useState(0);
+
   const transition = useTiming(index, { duration: 650 });
+
   const dot = useAnimatedStyle(() => ({
     transform: [
       { translateX: mix(transition.value, width * 0.25, width * 0.75) },
     ],
   }));
+
   const content = useAnimatedStyle(() => ({
     transform: [{ translateX: -width * transition.value }],
   }));
@@ -36,7 +43,12 @@ const Tabs = ({ tabs, children }: TabsProps) => {
       <Box flexDirection="row">
         {tabs.map((tab, i) => (
           <RectButton style={{ flex: 1 }} key={i} onPress={() => setIndex(i)}>
-            <Box padding="m" style={{ paddingBottom: theme.spacing.m + 10 }}>
+            <Box
+              padding="m"
+              style={{
+                paddingBottom: theme.spacing.m + 10,
+              }}
+            >
               <Text variant="title3" textAlign="center">
                 {tab.title}
               </Text>
